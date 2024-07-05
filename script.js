@@ -1,5 +1,5 @@
 const OPERATORS = ['+', '*', '-', '/'];
-const DIV0_MESSAGE = "DivBy0Error, Press AC";
+const DIV0_MESSAGE = "Press AC, DivBy0Error";
 
 // Create Calculator Layout
 const createKeypadLayout = () => {
@@ -47,6 +47,7 @@ const calculator = {
     'subtract': (num1,  num2) => (num1 || 0) - (num2 || 0),
     'multiply': (num1, num2) => (num1 || 1) * (num2 || 1),
     'divide': (num1, num2) => {
+        console.log(num1, num2)
         if (num2 === 0) {
             return DIV0_MESSAGE;
         }
@@ -59,7 +60,8 @@ const typeOnDisplay = (buttonValue) => {
     const inputDisplay = document.querySelector('input');
     const existingValue = inputDisplay.value;
 
-    if (existingValue === DIV0_MESSAGE) {
+    if (existingValue === DIV0_MESSAGE || buttonValue === DIV0_MESSAGE) {
+        inputDisplay.value = DIV0_MESSAGE;
         return;
     }
 
@@ -90,11 +92,6 @@ const allClear = () => {
     inputDisplay.value = '0';
 }
 
-// Backspace Number on Screen
-// const backspace = () => {
-//     const inputDisplay = document.querySelector('input');
-    
-// }
 
 // Is Operator already exist
 const isOperatorAlreadyExist = () => {
@@ -127,6 +124,10 @@ const operate = () => {
 }
 
 const executeEqual = () => {
+    if (!isOperatorAlreadyExist()) {
+        return null;    
+    }
+
     const result = operate();
     allClear();
     if (result === DIV0_MESSAGE) {
@@ -151,14 +152,10 @@ keypad.addEventListener('click', (e) => {
         typeOnDisplay(buttonValue);
     }
     else if (buttonValue === '=') {
-        if (isOperatorAlreadyExist()) {
-            executeEqual();
-        }
+        executeEqual();
     }
     else if (OPERATORS.includes(buttonValue)) {
-        if (isOperatorAlreadyExist()) {
-            executeEqual();
-        }
+        executeEqual();
         typeOnDisplay(buttonValue);
     }
 })
