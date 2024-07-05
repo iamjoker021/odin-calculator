@@ -8,21 +8,30 @@ const calculator_layout = [
 ]
 
 const divKeyPad = document.querySelector('div.keypad');
-for (const key of calculator_layout.flat()) {
-    const divKey = document.createElement('div');
-    divKey.id = key;
-
-    const buttonKey = document.createElement('button');
-    buttonKey.id = key;
-    buttonKey.textContent = key;
-    if (typeof buttonKey === 'number') {
-        buttonKey.classList.add('num-keys');
+for (const row of calculator_layout) {
+    const keyRow = document.createElement('div');
+    keyRow.classList.add('key-row');
+    for (const key of row) {
+        const divKey = document.createElement('div');
+        divKey.id = key;
+    
+        const buttonKey = document.createElement('button');
+        buttonKey.id = key;
+        buttonKey.textContent = key;
+        if (typeof key === 'number') {
+            buttonKey.classList.add('num-keys');
+        }
+        else if (['+', '*', '-', '/'].includes(key)) {
+            buttonKey.classList.add('operators');
+        }
+        else if (key === '=') {
+            buttonKey.classList.add('equal');
+        }
+        else if (key === '.') {
+            buttonKey.classList.add('dot');
+        }
+        divKey.appendChild(buttonKey);
+        keyRow.appendChild(divKey)
     }
-    else if (['+', '*', '-', '/'].includes(key)) {
-        buttonKey.classList.add('operators');
-    }
-
-    divKey.appendChild(buttonKey);
-    divKeyPad.appendChild(divKey);
-
+    divKeyPad.appendChild(keyRow);
 }
