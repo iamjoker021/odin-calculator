@@ -94,9 +94,16 @@ const allClear = () => {
 
 
 // Is Operator already exist
-const isOperatorAlreadyExist = () => {
+const isValidOperatorAlreadyExist = (buttonValue) => {
     const inputDisplay = document.querySelector('input');
     const existingValue = inputDisplay.value;
+
+    if (buttonValue === '-') {
+        if (existingValue[existingValue.length-1] === '*' || existingValue[existingValue.length-1] === '/') {
+            return false;
+        }
+    }
+
     return existingValue.search(/\+|\-|\*|\//g) != -1;
 }
 
@@ -107,26 +114,23 @@ const operate = () => {
 
     let result;
 
-    if (existingValue.includes('+')) {
-        result = calculator.add(...existingValue.split('+').map(parseFloat));
+    if (existingValue.includes('/')) {
+        result = calculator.divide(...existingValue.split('/').map(parseFloat));
     }
     else if (existingValue.includes('*')) {
         result = calculator.multiply(...existingValue.split('*').map(parseFloat));
     }
-    else if (existingValue.includes('/')) {
-        result = calculator.divide(...existingValue.split('/').map(parseFloat));
+    else if (existingValue.includes('+')) {
+        result = calculator.add(...existingValue.split('+').map(parseFloat));
     }
     else if (existingValue.includes('-')) {
         result = calculator.subtract(...[existingValue.substring(0, existingValue.lastIndexOf('-')), existingValue.substring(existingValue.lastIndexOf('-') + 1, existingValue.length)].map(parseFloat));
     }
-    console.log(result);
+
     return result;
 }
 
 const executeEqual = () => {
-    if (!isOperatorAlreadyExist()) {
-        return null;    
-    }
 
     const result = operate();
     allClear();
@@ -152,10 +156,15 @@ keypad.addEventListener('click', (e) => {
         typeOnDisplay(buttonValue);
     }
     else if (buttonValue === '=') {
-        executeEqual();
+        if (isValidOperatorAlreadyExist(buttonValue)) {
+            executeEqual();
+        }
     }
     else if (OPERATORS.includes(buttonValue)) {
-        executeEqual();
+        if (isValidOperatorAlreadyExist(buttonValue)) {
+            executeEqual();
+        }
         typeOnDisplay(buttonValue);
+        
     }
 })
