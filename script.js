@@ -66,7 +66,8 @@ const typeOnDisplay = (buttonValue) => {
     }
 
     if (buttonValue === ".") {
-        if(!existingValue.includes('.')) {
+        const lastValues = existingValue.split(/\+|\-|\*|\//g).at(-1);
+        if(!lastValues.includes('.')) {
             inputDisplay.value = existingValue + buttonValue;
         }
     }
