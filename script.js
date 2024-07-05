@@ -98,6 +98,7 @@ const isValidOperatorAlreadyExist = (buttonValue) => {
     const inputDisplay = document.querySelector('input');
     const existingValue = inputDisplay.value;
 
+    // Exception to include negative value if existing operator is multiply or divide
     if (buttonValue === '-') {
         if (existingValue[existingValue.length-1] === '*' || existingValue[existingValue.length-1] === '/') {
             return false;
