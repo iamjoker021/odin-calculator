@@ -112,15 +112,3 @@ body {
 .key-row div{
     flex: 1 1 0;
 }
-
-/* 
-button {
-    flex: 1;
-    min-width: 5.6em;
-    aspect-ratio: 1;
-}
-
-#AC button {
-    min-width: 18.3em;
-    height: 5.6em;
-} */
